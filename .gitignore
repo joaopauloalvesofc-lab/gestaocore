@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+dist/qa-mobile.html
+*.tar.gz
+_site/
+_qa/
+.env
+.env.*
+!.env.example
+.DS_Store

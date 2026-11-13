@@ -243,3 +243,4 @@ Fotografias ilustrativas do Unsplash:
 - Lavanderia: photo-1545173168-9f1947eebb7f.
 
 A fonte Manrope é fornecida localmente com seu arquivo de licença OFL-Manrope.txt. A marca CORE pertence ao material institucional fornecido. Conferir direitos e autorizações antes de substituir imagens por fotografias reais de pessoas ou instalações.
+

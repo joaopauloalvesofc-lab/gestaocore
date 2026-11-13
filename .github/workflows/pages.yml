@@ -1,0 +1,49 @@
+name: Publicar site CORE
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter o código
+        uses: actions/checkout@v6
+      - name: Configurar GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      - name: Gerar o site completo
+        env:
+          CORE_SITE_URL: ${{ steps.pages.outputs.base_url }}
+          CORE_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: python3 generate.py --output _site
+      - name: Verificar páginas, links e recursos
+        env:
+          CORE_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: python3 scripts/check_site.py _site --base-path "$CORE_BASE_PATH"
+      - name: Preparar o site para publicação
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
